@@ -12,6 +12,11 @@ import java.time.LocalDateTime;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_DEFAULT;
 
+/**
+ * @author Ramadhan Mohammed Mkoma (<a href="http://www.ramadhanmkoma.me/">RamadhanMkoma</a>)
+ * @version 1.0
+ * @since 07/2023
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor
