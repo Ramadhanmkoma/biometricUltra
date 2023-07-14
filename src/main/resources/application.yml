@@ -11,8 +11,8 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/biometricII
-    username: ${U_NAME}
-    password: ${U_PASSWORD}
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.postgreSQLDialect
