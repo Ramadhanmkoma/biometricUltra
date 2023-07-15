@@ -5,14 +5,8 @@ import io.techswahili.biometric.domain.User;
 import io.techswahili.biometric.exception.ApiException;
 import io.techswahili.biometric.repository.RoleRepository;
 import io.techswahili.biometric.repository.UserRepository;
-
-import static io.techswahili.biometric.enumeration.RoleEnum.ROLE_LECTURER;
-import static io.techswahili.biometric.enumeration.RoleEnum.ROLE_USER;
-import static io.techswahili.biometric.enumeration.VerificationType.ACCOUNT;
-import static io.techswahili.biometric.query.UserQuery.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -26,6 +20,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
+import static io.techswahili.biometric.enumeration.RoleEnum.ROLE_USER;
+import static io.techswahili.biometric.enumeration.VerificationType.ACCOUNT;
+import static io.techswahili.biometric.query.UserQuery.*;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -37,7 +34,6 @@ import static java.util.Objects.requireNonNull;
 @RequiredArgsConstructor
 @Slf4j
 public class UserRepositoryImpl implements UserRepository<User> {
-
     private final NamedParameterJdbcTemplate jdbc;
     private final RoleRepository<Role> roleRepository;
     private final BCryptPasswordEncoder encoder;
@@ -97,12 +93,13 @@ public class UserRepositoryImpl implements UserRepository<User> {
     private SqlParameterSource getSqlParameterSource(User user) {
         return new MapSqlParameterSource()
                 .addValue("firstName", user.getFirstName())
-                .addValue("lastName", user.getFirstName())
-                .addValue("email", user.getFirstName())
-                .addValue("password", encoder.encode(user.getFirstName()));
+                .addValue("lastName", user.getLastName())
+                .addValue("email", user.getEmail())
+                .addValue("password", encoder.encode(user.getPassword()));
     }
 
     private String getVerificationUrl(String key, String type) {
         return ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/verify/" + type + "/" + key).toUriString();
     }
+
 }

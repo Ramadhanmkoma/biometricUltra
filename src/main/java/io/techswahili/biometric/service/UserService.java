@@ -1,6 +1,7 @@
 package io.techswahili.biometric.service;
 
 import io.techswahili.biometric.domain.User;
+import io.techswahili.biometric.dto.UserDTO;
 
 /**
  * @author Ramadhan Mohammed Mkoma (<a href="http://www.ramadhanmkoma.me/">RamadhanMkoma</a>)
@@ -8,5 +9,5 @@ import io.techswahili.biometric.domain.User;
  * @since 07/2023
  */
 public interface UserService {
-    void createUser(User user);
+    UserDTO createUser(User user);
 }
