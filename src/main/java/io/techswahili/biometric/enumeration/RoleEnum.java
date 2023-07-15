@@ -6,6 +6,7 @@ package io.techswahili.biometric.enumeration;
  * @since 07/2023
  */
 public enum RoleEnum {
+    ROLE_USER,
     ROLE_HR,
     ROLE_LECTURER,
     ROLE_ADMIN
