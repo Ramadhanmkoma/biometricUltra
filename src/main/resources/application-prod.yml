@@ -1,0 +1,43 @@
+
+#Application Running Port
+server:
+  port: 5000
+  error:
+    include-message: always
+    whitelabel:
+      enabled: false
+
+# Database Connection
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/biometricII
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.postgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        # This property is needed so that the postgres JDBC driver can create a Lob correctly on the Java side.
+        jdbc:
+          lob:
+            non_contextual_creation: true
+      database: postgresql
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+  logging:
+    level:
+      org:
+        hibernate:
+          SQL: debug
