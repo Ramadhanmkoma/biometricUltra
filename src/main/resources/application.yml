@@ -9,8 +9,8 @@ server:
 
 # Database Connection
 spring:
-#  autoconfigure:
-#    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
   datasource:
     url: jdbc:postgresql://localhost:5432/biometricII
     username: postgres
@@ -34,7 +34,7 @@ spring:
       database: postgresql
   sql:
     init:
-      mode: never
+      mode: always
       continue-on-error: false
   logging:
     level:

@@ -16,6 +16,7 @@ import java.util.Map;
 import static io.techswahili.biometric.enumeration.RoleEnum.ROLE_USER;
 import static io.techswahili.biometric.query.RoleQuery.INSERT_ROLE_TO_USER_QUERY;
 import static io.techswahili.biometric.query.RoleQuery.SELECT_ROLE_BY_NAME_QUERY;
+import static java.util.Map.of;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -27,6 +28,7 @@ import static java.util.Objects.requireNonNull;
 @RequiredArgsConstructor
 @Slf4j
 public class RoleRepositoryImpl implements RoleRepository<Role> {
+
     private final NamedParameterJdbcTemplate jdbc;
     @Override
     public Role create(Role role) {
@@ -57,12 +59,14 @@ public class RoleRepositoryImpl implements RoleRepository<Role> {
     public void addRoleToUser(Long userId, String roleName) {
         log.info("Adding role {} to user id: {}", roleName, userId);
         try {
-            Role role = jdbc.queryForObject(SELECT_ROLE_BY_NAME_QUERY, Map.of("r_name", roleName), new RoleRowMapper());
-            jdbc.update(INSERT_ROLE_TO_USER_QUERY, Map.of("userId", userId, "roleId", requireNonNull(role).getId()));
+            Role role = jdbc.queryForObject(SELECT_ROLE_BY_NAME_QUERY, of("name", roleName), new RoleRowMapper());
+            log.info("successfully found {}", roleName);
+            jdbc.update(INSERT_ROLE_TO_USER_QUERY, of("userId", userId, "roleId", requireNonNull(role).getId()));
         } catch (EmptyResultDataAccessException exception) {
             throw new ApiException("No Role Found by name: " + ROLE_USER.name());
         } catch (Exception exception) {
-            throw new ApiException("Error occured!");
+            log.info(exception.getMessage());
+            throw new ApiException("Error occured at add role to user!");
         }
     }
 

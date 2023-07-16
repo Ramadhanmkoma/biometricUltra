@@ -3,6 +3,7 @@ package io.techswahili.biometric.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jdk.jfr.Unsigned;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_DEFAULT;
 @AllArgsConstructor
 @JsonInclude(NON_DEFAULT)
 public class User {
+    @Unsigned
     private Long id;
     @NotEmpty(message = "First name cannot be empty")   // Validation
     private String firstName;

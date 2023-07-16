@@ -45,9 +45,21 @@ public class UserRepositoryImpl implements UserRepository<User> {
         try {
             // getting the id of the user whenever we create a new account
             KeyHolder holder = new GeneratedKeyHolder();
+            String[] keyColumnNames = {"id"};
             SqlParameterSource parameters = getSqlParameterSource(user);
-            jdbc.update(INSERT_USER_QUERY, parameters, holder);
-            user.setId(requireNonNull(holder.getKey()).longValue());
+            jdbc.update(INSERT_USER_QUERY, parameters, holder, keyColumnNames);
+
+            // Retrieve the generated key
+            Number generatedKey = holder.getKey();
+            if (generatedKey == null) {
+                throw new ApiException("Failed to retrieve the generated key for the user");
+            }
+            long userId = generatedKey.longValue();
+
+            // Update the user object with the generated ID
+            user.setId(userId);
+
+//            user.setId(requireNonNull(holder.getKey()).longValue());
             // Add role to the user
             roleRepository.addRoleToUser(user.getId(), ROLE_USER.name());
             // Send Verification URL
@@ -62,6 +74,7 @@ public class UserRepositoryImpl implements UserRepository<User> {
             return user;
             // if errors, then throw exception with proper message
         } catch (Exception exception) {
+            log.info(exception.getMessage());
             throw new ApiException("Error occured!");
         }
     }

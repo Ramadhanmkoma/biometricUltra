@@ -9,19 +9,17 @@
 
 CREATE SCHEMA IF NOT EXISTS biometric;
 
---SET NAMES 'UTF8MB4';
+SET NAMES 'UTF8';
 
--- setting up the time zone
---SET TIME_ZONE = 'EAT';
+--SET TIME ZONE 'EAT';
 
--- USE THE DATABASE BIOMETRIC
---USE biometricII;
+SET search_path TO biometric, public;
 
-DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS biometricII.Users;
 
-CREATE TABLE Users
+CREATE TABLE IF NOT EXISTS Users
 (
-    id            BIGSERIAL NOT NULL PRIMARY KEY,
+    id            BIGSERIAL PRIMARY KEY,
     first_name    VARCHAR(50) NOT NULL,
     last_name     VARCHAR(50) NOT NULL,
     email         VARCHAR(100) NOT NULL,
@@ -39,9 +37,9 @@ CREATE TABLE Users
 );
 
 
-DROP TABLE IF EXISTS Roles;
+DROP TABLE IF EXISTS biometricII.Roles;
 
-CREATE TABLE Roles
+CREATE TABLE IF NOT EXISTS Roles
 (
     id          BIGSERIAL NOT NULL PRIMARY KEY,
     r_name      VARCHAR(50) NOT NULL,
@@ -50,9 +48,9 @@ CREATE TABLE Roles
 );
 
 
-DROP TABLE IF EXISTS UserRoles;
+DROP TABLE IF EXISTS biometricII.UserRoles;
 
-CREATE TABLE UserRoles
+CREATE TABLE IF NOT EXISTS UserRoles
 (
     id      BIGSERIAL NOT NULL PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -62,9 +60,9 @@ CREATE TABLE UserRoles
     CONSTRAINT UQ_UserRoles_User_id UNIQUE (user_id)
 );
 
-DROP TABLE IF EXISTS Events;
+DROP TABLE IF EXISTS biometricII.Events;
 
-CREATE TABLE Events
+CREATE TABLE IF NOT EXISTS Events
 (
     id   BIGSERIAL PRIMARY KEY NOT NULL,
     type VARCHAR(50) NOT NULL CHECK(type IN ('LOGIN_ATTEMP', 'LOGIN_ATTEMP_FAILURE', 'LOGIN_ATTEMP_SUCCESS', 'PROFILE_UPDATE', 'PROFILE_PICTURE_UPDATE', 'ROLE_UPDATE', 'ACCOUNT_SETTINGS_UPDATE', 'PASSWORD_UPDATE', 'MFA_UPDATE')),
@@ -72,9 +70,9 @@ CREATE TABLE Events
     CONSTRAINT UQ_Events_Type UNIQUE (type)
 );
 
-DROP TABLE IF EXISTS UserEvents;
+DROP TABLE IF EXISTS biometricII.UserEvents;
 
-CREATE TABLE UserEvents
+CREATE TABLE IF NOT EXISTS UserEvents
 (
     id          BIGSERIAL NOT NULL PRIMARY KEY,
     user_id     BIGINT NOT NULL,
@@ -87,9 +85,9 @@ CREATE TABLE UserEvents
 );
 
 
-DROP TABLE IF EXISTS AccountVerifications;
+DROP TABLE IF EXISTS biometricII.AccountVerifications;
 
-CREATE TABLE AccountVerifications
+CREATE TABLE IF NOT EXISTS AccountVerifications
 (
     id          BIGSERIAL NOT NULL PRIMARY KEY,
     user_id     BIGINT NOT NULL,
@@ -100,9 +98,9 @@ CREATE TABLE AccountVerifications
     CONSTRAINT UQ_AccountVerifications_Url UNIQUE (url)
 );
 
-DROP TABLE IF EXISTS AccountVerifications;
+--DROP TABLE IF EXISTS AccountVerifications;
 
-CREATE TABLE ResetPasswordVerifications
+CREATE TABLE IF NOT EXISTS ResetPasswordVerifications
 (
     id                  BIGSERIAL NOT NULL PRIMARY KEY,
     user_id             BIGINT NOT NULL,
@@ -114,9 +112,9 @@ CREATE TABLE ResetPasswordVerifications
 );
 
 
-DROP TABLE IF EXISTS TwoFactorAuthentications;
+--DROP TABLE IF EXISTS TwoFactorAuthentications;
 
-CREATE TABLE TwoFactorAuthentications
+CREATE TABLE IF NOT EXISTS TwoFactorAuthentications
 (
     id              BIGSERIAL NOT NULL PRIMARY KEY,
     user_id         BIGINT NOT NULL,
@@ -126,7 +124,6 @@ CREATE TABLE TwoFactorAuthentications
     CONSTRAINT UQ_TwoFactorAuthentications_User_Id UNIQUE (user_id),
     CONSTRAINT UQ_TwoFactorAuthentications_Code UNIQUE (code)
 );
-
 
 
 
